@@ -22,10 +22,16 @@ public class PlayerMovement : MonoBehaviour
     private GameObject parentBullets;
     float cameraAxisX = 0f;
 
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip shootSound;
+
+    private AudioSource audioPlayer;
+
     void Start()
     {
         parentBullets = GameObject.Find("DinamycBullets");
-        
+        audioPlayer = GetComponent<AudioSource>();
+     
     }
     void Update()
     {
@@ -40,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && canJump)
         {
+            audioPlayer.PlayOneShot(jumpSound, 0.5f);
             transform.Translate(Vector3.up * speedJump);
         }
     }
@@ -73,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void DelayShoot()
     {
+        audioPlayer.PlayOneShot(shootSound, 0.5f);
         GameObject newBullet = Instantiate(bulletPrefab, shootPoint.transform.position, transform.rotation);// PROYECTILES
         newBullet.transform.parent = parentBullets.transform;
     }
